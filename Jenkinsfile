@@ -24,6 +24,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
+                    //sh 'npm test'
                     echo 'testing'
                 }
             }
@@ -31,17 +32,27 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+		            //sh 'npm run build'
                     echo 'building'
                 }
             }
         }
-        stage('Run App') {
+        
+        stage('Deploy to Render') {
             steps {
                 script {
-                    sh 'nohup npm start &'
+                    def response = httpRequest(
+                        url: "https://api.render.com/v1/services/srv-crobic88fa8c738pst5g/deploys",
+                        httpMode: 'POST',
+                        contentType: 'APPLICATION_JSON',
+                        requestBody: '{}',
+                        customHeaders: [[name: 'Authorization', value: "Bearer rnd_Wegu0rLG8EO6taTL2U5N6IX5mbgd"]],
+                        validResponseCodes: '200:299'
+                    )
                 }
             }
         }
+
     }
     post {
         success {
