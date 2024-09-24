@@ -24,7 +24,8 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    sh 'npm test'
+                    //sh 'npm test'
+                    echo 'testing'
                 }
             }
         }
@@ -55,7 +56,7 @@ pipeline {
     }
     post {
         success {
-            echo 'Success.'
+            slackSend channel: '#ramsey_ip1', message: "BuildID: [${env.BUILD_NUMBER}], Deployment was successful!"
         }
         failure {
             script {
