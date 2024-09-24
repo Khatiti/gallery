@@ -14,13 +14,14 @@ const app = express();
 // connecting the database
 
 const MONGODB_URI = process.env.MONGODB_URI || config.mongoURI[app.settings.env]
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, serverSelectionTimeoutMS: 30000  },(err)=>{
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, serverSelectionTimeoutMS: 30000,socketTimeoutMS: 45000  },(err)=>{
     if (err) {
         console.log(err)
     }else{
         console.log(`Connected to Database: ${MONGODB_URI}`)
     }
 });
+
 
 // test if the database has connected successfully
 // let db = mongoose.connection;
